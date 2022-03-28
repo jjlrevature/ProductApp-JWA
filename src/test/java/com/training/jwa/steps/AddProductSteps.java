@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -37,16 +38,29 @@ public class AddProductSteps {
 
 	@When("enters a {int} {string} {int} {int}")
 	public void enters_a(Integer product_id, String productName, Integer quantityOnHand, Integer price) {
+//		                      Using a WebDriver object to enter info and submit
 //	    driver.findElement(By.xpath("/html/body/app-root/app-product-add/div/form/fieldset/div[1]/input")).sendKeys(String.valueOf(product_id));
 //	    driver.findElement(By.xpath("/html/body/app-root/app-product-add/div/form/fieldset/div[2]/input")).sendKeys(productName);
 //	    driver.findElement(By.xpath("/html/body/app-root/app-product-add/div/form/fieldset/div[3]/input")).sendKeys(String.valueOf(quantityOnHand));
 //	    driver.findElement(By.xpath("/html/body/app-root/app-product-add/div/form/fieldset/div[4]/input")).sendKeys(String.valueOf(price));
 //	    driver.findElement(By.xpath("/html/body/app-root/app-product-add/div/form/button")).click();
-		addProductPage.enterProductId(product_id);
-		addProductPage.enterProductName(productName);
-		addProductPage.enterQuantityOnHand(quantityOnHand);
-		addProductPage.enterPrice(price);
-		addProductPage.clickSubmitBtn();
+		
+//		                      Using a Page Object Model to enter the info and submit
+//		addProductPage.enterProductId(product_id);
+//		addProductPage.enterProductName(productName);
+//		addProductPage.enterQuantityOnHand(quantityOnHand);
+//		addProductPage.enterPrice(price);
+//		addProductPage.clickSubmitBtn();
+	
+//		                      Using JavascriptExecutor object to enter info and submit
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("document.getElementById('productId').value="+ product_id);
+		js.executeScript("document.getElementById('productName').value='"+ productName + "'");
+		js.executeScript("document.getElementById('qoh').value="+ quantityOnHand);
+		js.executeScript("document.getElementById('price').value="+ price);
+		js.executeScript("document.getElementById('addSubmit').click()");
+		
+		
 	}
 
 	@Then("the user should be navigated to the product list page.")
